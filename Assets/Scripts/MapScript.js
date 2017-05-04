@@ -6,10 +6,12 @@
   public var testNode  : GameObject;
   public var tileArray : GameObject[,];
   public var nodeArray : GameObject[,];
-  public var sprites   : Sprite[];
+//  public var sprites   : Sprite[];
   public var x;
   public var y;
- 
+
+  public var deltax : float;
+  public var deltay : float;
 //  var deltaj;
  
   function Start()
@@ -24,10 +26,12 @@
     //layout parameters
 //    var deltax = 0.84;
 //    var deltay = 0.96;
-    var deltax = 0.6;
-    var deltay = 0.85;
-    var xoffset = 0;
-    var yoffset = 0;
+//    var deltax = 0.6;
+//    var deltay = 0.85;
+    //deltax = 1.12
+
+    var xoffset = transform.position.x;
+    var yoffset = transform.position.y;
     var angle = 120;
     //instantiate nodes
 //    placeNodes(deltax, deltay, xoffset, yoffset);
@@ -36,7 +40,7 @@
 //    placeTiles(deltax, deltay, xoffset, yoffset, angle);
 
     //instantiate an offset grid
-    placeAlternating(deltax, deltay, xoffset, yoffset, angle);
+    placeAlternating(deltax/2.0, deltay*2.0, xoffset, yoffset, angle);
 
 
 
@@ -72,7 +76,7 @@
   {
     var counter = 0;
     var jadjustment = 0.0;
-    var deltaj = deltay/2.0;
+    var deltaj = deltay/2;
 
     for (k = 0; k < 3; k++)
     {
@@ -88,7 +92,8 @@
           var tempTile;
           tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
 //          tempTile.GetComponent(SpriteRenderer).sprite = null;//sprites[5];
-          tempTile.GetComponent(SpriteRenderer).sprite = sprites[5];
+//          tempTile.GetComponent(SpriteRenderer).sprite = sprites[5];
+          tempTile.GetComponent(TileScript).SetSprite(5);
           tempTile.GetComponent(TileScript).pivotInPlace(k * 120);
         }
       }
@@ -99,7 +104,7 @@
   {
     var counter = 0;
     var jadjustment = 0.0;
-    var deltaj = deltay/2.0;
+    var deltaj = 1/Mathf.Sqrt(3)*deltay;
 
     //  | | | | | | |
     //  | | | | | | |
@@ -109,19 +114,31 @@
     //      | | |
     //        |  
 
+    var jlength = 0;
     for(var i = 0; i < cols; i++) {
-      jadjustment += deltaj;
-      var jlength;
+       if(i%2 == 0) {
+//          tempNode = Instantiate(testNode, Vector3(x, y, 0), Quaternion.identity);
+          jadjustment += 2*deltaj;
+        } else if( i%2 == 1) {
+//          tempTile = Instantiate(testTile, Vector3(x-deltax, y-deltay, 0), Quaternion.identity);
+        }
 
-
+      if (i <= 3) 
+      { jlength++;
+      }
+      else
+      { jlength--; 
+      }
+//      +jlength
       for(var j = 0; j < rows; j++) {
         counter++;
         x = xoffset + deltax * i              ;//+ 2*Mathf.Cos(-k*120*180/Mathf.PI);
         y = yoffset + deltay * (j+jadjustment);//+ 2*Mathf.Sin(k*120*180/Mathf.PI);
         if(i%2 == 0) {
           tempNode = Instantiate(testNode, Vector3(x, y, 0), Quaternion.identity);
+          tempNode.GetComponent(NodeScript).SetArrows(i*cols + j);
         } else if( i%2 == 1) {
-          tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
+          tempTile = Instantiate(testTile, Vector3(x-deltax, y-deltay, 0), Quaternion.identity);
         }
       }
     }
@@ -145,13 +162,15 @@
         {
 			tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
 //            tempTile.GetComponent(SpriteRenderer).sprite = null;//sprites[5];
-            tempTile.GetComponent(SpriteRenderer).sprite = sprites[5];
+            tempTile.GetComponent(TileScript).SetSprite(5);
+//            GetComponent(SpriteRenderer).sprite = sprites[5];
         }
         else if ( i >= 3 && j >= -i+8 )
         {
           tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
 //          tempTile.GetComponent(SpriteRenderer).sprite = null;//sprites[2];
-          tempTile.GetComponent(SpriteRenderer).sprite = sprites[2];
+//          tempTile.GetComponent(SpriteRenderer).sprite = sprites[2];
+          tempTile.GetComponent(TileScript).SetSprite(2);
         }
 //        else if (j <= i && i <= 9 - j)
 //        {
@@ -160,7 +179,8 @@
         else 
         {
           tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
-          tempTile.GetComponent(SpriteRenderer).sprite = sprites[4];
+//          tempTile.GetComponent(SpriteRenderer).sprite = sprites[4];
+          tempTile.GetComponent(TileScript).SetSprite(4);
           tempTile.GetComponent(TileScript).pivotInPlace(angle);
         }
         tempTile.GetComponent(TileScript).logName("["+i+"],["+j+"]");

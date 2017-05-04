@@ -3,12 +3,15 @@
 var rectTrans : RectTransform;
 var pivot;
 var title;
+public var sprites   : Sprite[];
+
 //var neighbors : [] GameObject;
 
 function Start () 
 {
-  pivot = Vector2(0.5f,0.75f);
-  rectTrans.pivot = pivot;
+//  pivot = Vector2(0.5f,0.75f);
+//  rectTrans.pivot = pivot;
+  SetSprite(2);
   	
 }
 
@@ -27,24 +30,24 @@ function pivotInPlace (degrees)
 
 }
 
-function OnMouseEnter () {
-//  Debug.Log(title);
-//    rend.material.color = Color.red;
+function SetSprite(input : int)
+{ 
+  this.spriteIndex = input;
+  this.GetComponent(SpriteRenderer).sprite = sprites[input];
 }
 
-// ...the red fades out to cyan as the mouse is held over...
-function OnMouseOver () {
-//    rend.material.color -= Color(0.1, 0, 0) * Time.deltaTime;
-}
-
-
-// ...and the mesh finally turns white when the mouse moves away.
-function OnMouseExit () {
-//    rend.material.color = Color.white;
-}
-
+var counter = 0;
+var spriteIndex = 0;
 function Update () {
-  pivotInPlace(1);
+  counter++;
+  if(counter % 20 == 0)
+  {
+    pivotInPlace(120);
+    spriteIndex++;
+//    spriteIndex = (spriteIndex % 2) + 1;
+
+    SetSprite(spriteIndex % sprites.length);
+  }
 //  if(Input.GetMouseButtonDown(0))
 //        Debug.Log(title);
 //    if(Input.GetMouseButtonDown(1))

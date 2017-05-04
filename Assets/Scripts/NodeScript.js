@@ -17,9 +17,10 @@ function Start ()
     var tempArrow = Instantiate(arrow, transform.position, Quaternion.identity);
     tempArrow.GetComponent(Transform).Rotate(0,0,i*60);
 
-    tempArrow.GetComponent(SpriteRenderer).sprite = emptySprite;
+    tempArrow.GetComponent(SpriteRenderer).sprite = arrowSprite;
     arrows[i] = tempArrow;
   }
+  SetArrows(21);
 }
 
 function getBits(input : int)
@@ -51,14 +52,15 @@ function SetArrows(input : int)
 }
 
 var updateCounter = 0;
+var arrowIndex = 0;
 function Update () 
 {
   
-  updateCounter++;
-
-  if(updateCounter % 10 == 0)
-  {
-    SetArrows(updateCounter%63);
-  }
+//  updateCounter++;
+//  if(updateCounter % 10 == 0)
+//  {
+//    arrowIndex++;
+//    SetArrows(arrowIndex);
+//  }
 	
 }
