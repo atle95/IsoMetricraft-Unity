@@ -1,17 +1,32 @@
 ﻿#pragma strict
 
-//var newSprite : Sprite;
-//var update = 0;
+var newSprite : Sprite;
+var update = 0;
+var startTime = 0;
+var endTime = 180;
  
 function Start () 
 {
+
+}
+
+function RotateSprite (degrees)
+{
+  transform.Rotate(0, 0, degrees);
 }
 
 function Update () 
 {
-//	update++;
-//	if (Time.deltaTime %60 == 0) GetComponent(SpriteRenderer).sprite = newSprite;
+	update++;
+//    
+    if((startTime < update) && (update < endTime))
+    {
+	  transform.Rotate(0, 0, 1);
+	}
+	else if(update >= endTime)
+	{
+      GetComponent(SpriteRenderer).sprite = newSprite;
+	  
+	}
 
-//    GetComponent(SpriteRenderer).sprite = newSprite;
-	transform.Rotate(0, 0, 20*Time.deltaTime);
 }
