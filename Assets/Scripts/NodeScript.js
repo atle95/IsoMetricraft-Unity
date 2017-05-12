@@ -5,6 +5,7 @@ public var arrow       : GameObject;
 public var arrowSprite : Sprite;
 public var emptySprite : Sprite;
 public var connections : int;
+public var tileConnections : GameObject[];
 
 
 function Start () 
@@ -20,7 +21,7 @@ function Start ()
     tempArrow.GetComponent(SpriteRenderer).sprite = arrowSprite;
     arrows[i] = tempArrow;
   }
-  SetArrows(21);
+  SetArrows(connections);
 }
 
 function getBits(input : int)
@@ -33,6 +34,12 @@ function getBits(input : int)
   return bits;
 }
 
+function SetConnections(input : int)
+{
+  connections = input;
+}
+
+
 function SetArrows(input : int)
 {
   var directions = getBits(input);
@@ -40,7 +47,7 @@ function SetArrows(input : int)
   {
     if (directions[i])
     {
-      Debug.Log("TRUTH");
+//      Debug.Log("TRUTH");
       arrows[i].GetComponent(SpriteRenderer).sprite = arrowSprite;
     }
     else 
@@ -56,11 +63,11 @@ var arrowIndex = 0;
 function Update () 
 {
   
-//  updateCounter++;
-//  if(updateCounter % 10 == 0)
-//  {
-//    arrowIndex++;
-//    SetArrows(arrowIndex);
-//  }
+  updateCounter++;
+  if(updateCounter %10 == 0)
+  {
+    connections++;
+    SetArrows(connections%63);
+  }
 	
 }

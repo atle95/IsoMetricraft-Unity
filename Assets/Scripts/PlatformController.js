@@ -1,9 +1,15 @@
 ﻿#pragma strict
 
-var speed : float = 1.0;
-//var camera : Camera;
+var speed        : float;
+var walkingSpeed : float;
+var sprintSpeed  : float;
 
-function Start () 
+var jumping    : boolean;
+var facingLeft : boolean = false;
+var grounded   : boolean = true;
+
+
+function Start ()
 {
 	
 }
@@ -11,8 +17,18 @@ function Start ()
 function Update ()
 {
 
+
+
  var move = Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
- transform.position += move * speed * Time.deltaTime;
+// if (Input.GetKeyDown ("space")) {
+//   speed = sprintSpeed;
+// } 
+// if(Input.GetKeyUp("space")) {
+//   speed = walkingSpeed;
+// }
+
+   transform.position += move * speed * Time.deltaTime;
+//   Debug.Log("SPACEBAR");
 // UnityEngine.Component.
 // camera.transform.position = transform.position;
 }

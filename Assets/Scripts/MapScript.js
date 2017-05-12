@@ -16,25 +16,15 @@
  
   function Start()
   {
+    var angle = 120; 
     //data structure to hold gameobjects
     nodeArray = new GameObject[rows, cols];
     tileArray = new GameObject[rows, cols];
-//    var step = sprites.length;
-//    deltax = 2;
-//    deltay = 2;
-
-    //layout parameters
-//    var deltax = 0.84;
-//    var deltay = 0.96;
-//    var deltax = 0.6;
-//    var deltay = 0.85;
-    //deltax = 1.12
 
     var xoffset = transform.position.x;
     var yoffset = transform.position.y;
-    var angle = 120;
     //instantiate nodes
-//    placeNodes(deltax, deltay, xoffset, yoffset);
+//    placeNodes( , deltay, xoffset, yoffset);
 
     //instantiate tiles
 //    placeTiles(deltax, deltay, xoffset, yoffset, angle);
@@ -42,6 +32,7 @@
     //instantiate an offset grid
     placeAlternating(deltax/2.0, deltay*2.0, xoffset, yoffset, angle);
 
+//    placeSelectively(deltax, deltay, xoffset, yoffset, angle);
 
 
    
@@ -76,7 +67,7 @@
   {
     var counter = 0;
     var jadjustment = 0.0;
-    var deltaj = deltay/2;
+    var deltaj = deltay/2.0;
 
     for (k = 0; k < 3; k++)
     {
@@ -104,41 +95,46 @@
   {
     var counter = 0;
     var jadjustment = 0.0;
-    var deltaj = 1/Mathf.Sqrt(3)*deltay;
+    var deltaj = deltay/Mathf.Sqrt(3)/2;
+   
+   /**  
+    /*  | | | | | | |
+    /*  | | | | | | |
+    /*  | | | | | | |
+    /*  | | | | | | |
+    /*    | | | | |
+    /*      | | |
+    /*        |  
+   **/
 
-    //  | | | | | | |
-    //  | | | | | | |
-    //  | | | | | | |
-    //  | | | | | | |
-    //    | | | | |
-    //      | | |
-    //        |  
+   /** 
+    /*  | | | | _ _ _
+    /*  | | | | | _ _
+    /*  | | | | | | _
+    /*  | | | | | | |
+    /*  _ | | | | | |
+    /*  _ _ | | | | |
+    /*  _ _ _ | | | |
+    **/
 
-    var jlength = 0;
-    for(var i = 0; i < cols; i++) {
-       if(i%2 == 0) {
-//          tempNode = Instantiate(testNode, Vector3(x, y, 0), Quaternion.identity);
-          jadjustment += 2*deltaj;
-        } else if( i%2 == 1) {
-//          tempTile = Instantiate(testTile, Vector3(x-deltax, y-deltay, 0), Quaternion.identity);
-        }
+    var jlength = -1;
+    for(var i = 0; i < cols*2; i++) {
+      if(i%2 == 0) 
+      {  jadjustment += deltaj;
+         if(i < cols) jlength++;
+         else jlength--;
 
-      if (i <= 3) 
-      { jlength++;
       }
-      else
-      { jlength--; 
-      }
-//      +jlength
-      for(var j = 0; j < rows; j++) {
+
+      for(var j = 0; j < rows+jlength; j++) {
         counter++;
         x = xoffset + deltax * i              ;//+ 2*Mathf.Cos(-k*120*180/Mathf.PI);
         y = yoffset + deltay * (j+jadjustment);//+ 2*Mathf.Sin(k*120*180/Mathf.PI);
         if(i%2 == 0) {
           tempNode = Instantiate(testNode, Vector3(x, y, 0), Quaternion.identity);
-          tempNode.GetComponent(NodeScript).SetArrows(i*cols + j);
+          tempNode.GetComponent(NodeScript).SetConnections(i*cols + j);
         } else if( i%2 == 1) {
-          tempTile = Instantiate(testTile, Vector3(x-deltax, y-deltay, 0), Quaternion.identity);
+          tempTile = Instantiate(testTile, Vector3(x, y, 0), Quaternion.identity);
         }
       }
     }
@@ -196,6 +192,8 @@
   function genCube()
   {
     //make a 2d array with values to determine rotation and texture for 3 faces
+
+
     
   }
 
